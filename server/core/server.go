@@ -2,6 +2,7 @@ package core
 
 import (
 	"fmt"
+	"github.com/flipped-aurora/gin-vue-admin/server/service/DailyAlgorithm"
 	"time"
 
 	"github.com/flipped-aurora/gin-vue-admin/server/global"
@@ -34,6 +35,9 @@ func RunWindowsServer() {
 	// In order to ensure that the text order output can be deleted
 	time.Sleep(10 * time.Microsecond)
 	global.GVA_LOG.Info("server run success on ", zap.String("address", address))
+
+	//每日一题排行榜每日更新
+	DailyAlgorithm.DATimer()
 
 	fmt.Printf(`
 	欢迎使用 gin-vue-admin

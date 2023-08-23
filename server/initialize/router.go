@@ -72,6 +72,14 @@ func Routers() *gin.Engine {
 		exampleRouter.InitFileUploadAndDownloadRouter(PrivateGroup) // 文件上传下载功能路由
 
 	}
+	{
+		DailyAlgorithmRouter := router.RouterGroupApp.DailyAlgorithm
+		DailyAlgorithmRouter.InitDailyAlgorithmRecordRouter(PrivateGroup)
+	}
+	{
+		TESTRouter := router.RouterGroupApp.TEST
+		TESTRouter.InitTESTRouter(PrivateGroup)
+	}
 
 	global.GVA_LOG.Info("router register success")
 	return Router

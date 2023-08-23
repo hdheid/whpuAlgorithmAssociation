@@ -19,6 +19,7 @@
         <el-table-column align="left" label="昵称" min-width="150" prop="nickName" />
         <el-table-column align="left" label="手机号" min-width="180" prop="phone" />
         <el-table-column align="left" label="邮箱" min-width="180" prop="email" />
+        <el-table-column align="left" label="QQ号" min-width="180" prop="qq" />
         <el-table-column align="left" label="用户角色" min-width="200">
           <template #default="scope">
             <el-cascader
@@ -99,6 +100,9 @@
           </el-form-item>
           <el-form-item label="邮箱" prop="email">
             <el-input v-model="userInfo.email" />
+          </el-form-item>
+          <el-form-item label="QQ号" prop="qq">
+            <el-input v-model="userInfo.qq" />
           </el-form-item>
           <el-form-item label="用户角色" prop="authorityId">
             <el-cascader

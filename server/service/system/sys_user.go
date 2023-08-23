@@ -91,7 +91,7 @@ func (userService *UserService) GetUserInfoList(info request.PageInfo) (list int
 	if err != nil {
 		return
 	}
-	err = db.Limit(limit).Offset(offset).Preload("Authorities").Preload("Authority").Find(&userList).Error
+	err = db.Order("da_count_in_mouth desc").Limit(limit).Offset(offset).Preload("Authorities").Preload("Authority").Find(&userList).Error
 	return userList, total, err
 }
 
@@ -165,16 +165,18 @@ func (userService *UserService) DeleteUser(id int) (err error) {
 
 func (userService *UserService) SetUserInfo(req system.SysUser) error {
 	return global.GVA_DB.Model(&system.SysUser{}).
-		Select("updated_at", "nick_name", "header_img", "phone", "email", "sideMode", "enable").
+		Select("updated_at", "nick_name", "header_img", "phone", "email", "sideMode", "enable", "qq", "da_count_in_mouth").
 		Where("id=?", req.ID).
 		Updates(map[string]interface{}{
-			"updated_at": time.Now(),
-			"nick_name":  req.NickName,
-			"header_img": req.HeaderImg,
-			"phone":      req.Phone,
-			"email":      req.Email,
-			"side_mode":  req.SideMode,
-			"enable":     req.Enable,
+			"updated_at":        time.Now(),
+			"nick_name":         req.NickName,
+			"header_img":        req.HeaderImg,
+			"phone":             req.Phone,
+			"email":             req.Email,
+			"qq":                req.QQ,
+			"side_mode":         req.SideMode,
+			"enable":            req.Enable,
+			"da_count_in_mouth": req.DACountInMouth,
 		}).Error
 }
 
@@ -242,4 +244,34 @@ func (userService *UserService) FindUserByUuid(uuid string) (user *system.SysUse
 func (userService *UserService) ResetPassword(ID uint) (err error) {
 	err = global.GVA_DB.Model(&system.SysUser{}).Where("id = ?", ID).Update("password", utils.BcryptHash("123456")).Error
 	return err
+}
+
+//@author: [cfd](https://github.com/cfddd)
+//@function: AddDACount
+//@description: 每日打卡记录+1，找到uuid等于user_name参数的行，给该行的da_count_in_mouth+1
+//@param: user_name string
+//@return: err error
+
+func AddDACount(user_name string) (err error) {
+	return global.GVA_DB.Model(&system.SysUser{}).Where("uuid = ?", user_name).Update("da_count_in_mouth", gorm.Expr("da_count_in_mouth + ?", 1)).Error
+}
+
+//@author: [cfd](https://github.com/cfddd)
+//@function: UpdateDACount
+//@description: 每日打卡记录数量修改，找到uuid等于user_name参数的行，给该行的da_count_in_mouth+x
+//@param: user_name string,x int
+//@return: err error
+
+func UpdateDACount(user_name string, x int) (err error) {
+	return global.GVA_DB.Model(&system.SysUser{}).Where("uuid = ?", user_name).Update("da_count_in_mouth", gorm.Expr("da_count_in_mouth + ?", x)).Error
+}
+
+//@author: [cfd](https://github.com/cfddd)
+//@function: CoverDACount
+//@description: 每日打卡记录数量修改，找到uuid等于user_name参数的行，将该行的da_count_in_mouth赋值为x
+//@param: user_name string,x int
+//@return: err error
+
+func CoverDACount(user_name string, x int) (err error) {
+	return global.GVA_DB.Model(&system.SysUser{}).Where("uuid = ?", user_name).Update("da_count_in_mouth", x).Error
 }
