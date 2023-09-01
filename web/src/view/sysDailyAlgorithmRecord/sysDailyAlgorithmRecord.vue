@@ -25,10 +25,11 @@
       </form>
     </div>
 
-    <!-- <div class="right-section">
-      <h2 class="section-title">本月打卡情况</h2>
-      <calendar />
-    </div> -->
+    <div class="right-section">
+      <h2 class="section-title">打卡规则</h2>
+      <!-- <calendar /> -->
+      <InformationList />
+    </div>
 
   </div>
 </template>
@@ -36,6 +37,8 @@
 <script>
 import calendar from "./calendar.vue";
 import sysDailyAlgorithmRecordForm from "./sysDailyAlgorithmRecordForm.vue";
+import InformationList from "./InformationList.vue";
+
 // ...
 import {
   createDailyAlgorithmRecord,
@@ -56,7 +59,8 @@ export default {
   // ...
   components: {
     calendar,
-    sysDailyAlgorithmRecordForm
+    sysDailyAlgorithmRecordForm,
+    InformationList
     // ...
   },
 

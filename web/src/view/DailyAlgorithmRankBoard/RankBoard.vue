@@ -1,11 +1,23 @@
 <template>
     <div>
-      <warning-bar title="注：右上角头像下拉可查看角色" />
+      <warning-bar title="注：默认按照打卡次数排序" />
       <div class="gva-table-box">
         <el-table
           :data="tableData"
         >
-          <el-table-column type="index" align="center" :resizable="false" label="排名" width="100" />
+          <el-table-column type="index" align="center" :resizable="false" label="排名" width="100" >
+            <template #default="scope">
+          <div :class="getRankClass(scope.$index)">
+            <!-- 根据前三名显示不同的奖牌 -->
+            <template v-if="scope.$index < 3">
+              <i>✨</i>
+            </template>
+            <template v-else>
+            </template>
+            {{ scope.$index + 1 }}
+          </div>
+        </template>
+          </el-table-column>
           <el-table-column align="center" label="头像" min-width="75">
             <template #default="scope">
               <CustomPic style="margin-top:8px" :pic-src="scope.row.headerImg" />
@@ -33,7 +45,18 @@
   <script>
   export default {
     name: 'User',
+    methods: {
+    getRankClass(index) {
+      // 根据索引返回不同的样式类
+      if (index < 3) {
+        return 'special-rank';
+      } else {
+        return 'common-rank';
+      }
+    }
   }
+  }
+  
   </script>
   
   <script setup>
@@ -128,9 +151,20 @@
 
   
   </script>
-  
   <style lang="scss">
+.special-rank {
+  font-size: 26px;
+  font-weight: bold;
+  color: #ff9b54; /* 橙色 */
+}
+.common-rank {
+  font-size: 26px;
+  font-weight: bold;
+  color: #606060; /* 灰色 */
+
+}
   .user-dialog {
+    
     .header-img-box {
     width: 200px;
     height: 200px;

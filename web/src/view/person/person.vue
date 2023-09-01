@@ -33,38 +33,34 @@
                   </el-icon>
                   {{ userStore.userInfo.nickName }}
                 </li>
-                <el-tooltip
-                  class="item"
-                  effect="light"
-                  content="北京反转极光科技有限公司-技术部-前端事业群"
-                  placement="top"
-                >
+
                   <li>
                     <el-icon>
                       <data-analysis />
                     </el-icon>
-                    北京反转极光科技有限公司-技术部-前端事业群
+                    {{ userStore.userInfo.qq }}
                   </li>
-                </el-tooltip>
+
                 <li>
                   <el-icon>
                     <video-camera />
                   </el-icon>
-                  中国·北京市·朝阳区
+                  {{ userStore.userInfo.email }}
                 </li>
-                <el-tooltip
+                <!-- <el-tooltip
                   class="item"
                   effect="light"
                   content="GoLang/JavaScript/Vue/Gorm"
                   placement="top"
-                >
+                > -->
+
                   <li>
                     <el-icon>
                       <medal />
                     </el-icon>
-                    GoLang/JavaScript/Vue/Gorm
+                    {{ userStore.userInfo.phone }}
                   </li>
-                </el-tooltip>
+
               </ul>
             </div>
           </div>
@@ -80,6 +76,12 @@
                   <p class="desc">
                     已绑定手机:{{ userStore.userInfo.phone }}
                     <a href="javascript:void(0)" @click="changePhoneFlag = true">立即修改</a>
+                  </p>
+                </li>
+                <li>
+                  <p class="title">QQ号</p>
+                  <p class="desc">
+                    QQ号:{{ userStore.userInfo.qq }}
                   </p>
                 </li>
                 <li>
@@ -150,7 +152,7 @@
       </template>
     </el-dialog>
 
-    <el-dialog v-model="changePhoneFlag" title="绑定手机" width="600px">
+    <el-dialog v-model="changePhoneFlag" title="绑定手机(不可用)" width="600px">
       <el-form :model="phoneForm">
         <el-form-item label="手机号" label-width="120px">
           <el-input v-model="phoneForm.phone" placeholder="请输入手机号" autocomplete="off" />
@@ -177,7 +179,7 @@
       </template>
     </el-dialog>
 
-    <el-dialog v-model="changeEmailFlag" title="绑定邮箱" width="600px">
+    <el-dialog v-model="changeEmailFlag" title="绑定邮箱(不可用)" width="600px">
       <el-form :model="emailForm">
         <el-form-item label="邮箱" label-width="120px">
           <el-input v-model="emailForm.email" placeholder="请输入邮箱" autocomplete="off" />

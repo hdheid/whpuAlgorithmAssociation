@@ -5,6 +5,7 @@ import (
 	"github.com/flipped-aurora/gin-vue-admin/server/model/DailyAlgorithm"
 	DailyAlgorithmReq "github.com/flipped-aurora/gin-vue-admin/server/model/DailyAlgorithm/request"
 	"github.com/flipped-aurora/gin-vue-admin/server/model/common/request"
+	"log"
 	"time"
 )
 
@@ -14,7 +15,21 @@ type DailyAlgorithmRecordService struct {
 // CreateDailyAlgorithmRecord 创建DailyAlgorithmRecord记录
 // Author [piexlmax](https://github.com/piexlmax)
 func (DARService *DailyAlgorithmRecordService) CreateDailyAlgorithmRecord(DAR *DailyAlgorithm.DailyAlgorithmRecord) (err error) {
+	tx := global.GVA_DB.Begin() // 开启事务
+	defer func() {
+		if r := recover(); r != nil {
+			tx.Rollback() // 发生错误时回滚事务
+		}
+	}()
+	// 操作
 	err = global.GVA_DB.Create(DAR).Error
+
+	if err != nil {
+		tx.Rollback() // 操作失败，回滚事务
+		log.Fatal(err)
+	}
+	err = tx.Commit().Error // 提交事务
+
 	return err
 }
 

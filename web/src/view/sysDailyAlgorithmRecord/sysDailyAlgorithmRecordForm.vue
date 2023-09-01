@@ -116,9 +116,14 @@ const rule = reactive({
 })
 
 const elFormRef = ref()
+// 上一次点击save按钮的时间,和这次的时间差
+var lastClickTime = ref(0)
+var currentTime = ref(0);
 
 // 初始化方法
 const init = async () => {
+  lastClickTime = Date.now();
+
   // 建议通过url传参获取目标数据ID 调用 find方法进行查询数据操作 从而决定本页面是create还是update 以下为id作为url参数示例
   if (route.query.id) {
     const res = await findDailyAlgorithmRecord({ ID: route.query.id })
@@ -134,10 +139,12 @@ const init = async () => {
 init()
 // 保存按钮
 const save = async () => {
+    currentTime = Date.now();
+
   // await 关键字用于等待 coverDailyAlgorithmRecord 函数返回一个 Promise 对象的结果。这意味着在接收到结果之前，代码将暂停执行，并等待 Promise 对象的解决（即成功或失败）。
-  console.log(formData.value)
+  // console.log(formData.value)
   const resCoverRecord = await coverDailyAlgorithmRecord({ date: formData.value.date, user_name: formData.value.user_name })
-  console.log(resCoverRecord)
+  // console.log(resCoverRecord)
   if ("reDAR" in resCoverRecord.data) {
     resCoverRecord.data.reDAR.link = formData.value.link
     resCoverRecord.data.reDAR.code = formData.value.code
@@ -147,12 +154,23 @@ const save = async () => {
   }
   // console.log(type.value)
 
+  // 时间间隔不超过3秒,拒绝执行
+  if (currentTime - lastClickTime < 2000) {
+    type.value = 'tooFast'
+  }
+  // console.log(currentTime)
 
 
   elFormRef.value?.validate(async (valid) => {
     if (!valid) return
     let res
     switch (type.value) {
+      case 'tooFast':
+        ElMessage({
+          type: 'warning',
+          message: '操作过快'
+        })
+        return
       case 'create':
         res = await createDailyAlgorithmRecord(formData.value)
         break
@@ -186,6 +204,7 @@ const save = async () => {
       }
     }
   })
+  lastClickTime = currentTime
 }
 
 // 返回按钮

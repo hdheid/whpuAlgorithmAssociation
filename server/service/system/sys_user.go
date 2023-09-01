@@ -78,7 +78,7 @@ func (userService *UserService) ChangePassword(u *system.SysUser, newPassword st
 
 //@author: [piexlmax](https://github.com/piexlmax)
 //@function: GetUserInfoList
-//@description: 分页获取数据
+//@description: 分页获取数据,按照da_count_in_mouth 降序排序
 //@param: info request.PageInfo
 //@return: err error, list interface{}, total int64
 
