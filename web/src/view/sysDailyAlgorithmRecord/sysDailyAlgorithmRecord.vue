@@ -6,7 +6,7 @@
         <div class="form-item">
           <label for="code" class="form-label" >提交代码：</label>
           <div class="textarea-wrapper">
-            <textarea id="code" v-model="code" class="textarea" placeholder="```语言类型（例如cpp）+ 你的代码```"></textarea>
+            <textarea id="code" v-model="code" class="textarea" :placeholder="this.codeText"></textarea>
           </div>
         </div>
 
@@ -69,6 +69,7 @@ export default {
       showModal: false,
       link: '',
       code: '',
+      codeText: "```\n语言类型（例如cpp）\n你的代码\n```",
     };
   },
   methods: {

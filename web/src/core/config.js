@@ -3,8 +3,8 @@
  */
 
 const config = {
-  appName: 'Gin-Vue-Admin',
-  appLogo: 'https://www.gin-vue-admin.com/img/logo.png',
+  appName: '数计学院算法协会',
+  appLogo: '@/assets/whpu.jpg',
   showViteLogo: true
 }
 

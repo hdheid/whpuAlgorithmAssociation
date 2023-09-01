@@ -9,7 +9,7 @@
         <div class="z-[999] pt-12 pb-10 md:w-96 w-full  rounded-lg flex flex-col justify-between box-border">
           <div>
             <div class="flex items-center justify-center">
-              <img class="w-24" :src="$GIN_VUE_ADMIN.appLogo" alt>
+              <img class="w-24" src="@/assets/whpu.jpg" alt>
             </div>
             <div class="mb-9">
               <p class="text-center text-4xl font-bold">{{ $GIN_VUE_ADMIN.appName }}</p>
@@ -47,22 +47,14 @@
                 <el-button class="shadow shadow-blue-600 h-11 w-full" type="primary" size="large" @click="submitForm">登
                   录</el-button>
               </el-form-item>
-              <el-form-item class="mb-6">
-                <el-button
-                  class="shadow shadow-blue-600 h-11 w-full"
-                  type="primary"
-                  size="large"
-                  @click="checkInit"
-                >前往初始化</el-button>
 
-              </el-form-item>
             </el-form>
           </div>
         </div>
       </div>
       <div class="hidden md:block w-1/2 h-full float-right bg-[#194bfb]"><img
         class="h-full"
-        src="@/assets/login_right_banner.jpg"
+        src="@/assets/algorithm.png"
         alt="banner"
       ></div>
     </div>
@@ -137,7 +129,7 @@ loginVerify()
 const loginForm = ref(null)
 const picPath = ref('')
 const loginFormData = reactive({
-  username: 'admin',
+  username: 'CFD',
   password: '123456',
   captcha: '',
   captchaId: '',
